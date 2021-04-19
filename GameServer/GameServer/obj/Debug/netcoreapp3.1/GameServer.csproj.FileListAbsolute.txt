@@ -13,3 +13,16 @@ D:\Github\S3\S3GP_Philips_GameServer\GameServer\GameServer\obj\Debug\netcoreapp3
 D:\Github\S3\S3GP_Philips_GameServer\GameServer\GameServer\obj\Debug\netcoreapp3.1\GameServer.dll
 D:\Github\S3\S3GP_Philips_GameServer\GameServer\GameServer\obj\Debug\netcoreapp3.1\GameServer.pdb
 D:\Github\S3\S3GP_Philips_GameServer\GameServer\GameServer\obj\Debug\netcoreapp3.1\GameServer.genruntimeconfig.cache
+D:\GitProjects\Philips_Project\S3GP_Philips_GameServer\GameServer\GameServer\bin\Debug\netcoreapp3.1\GameServer.exe
+D:\GitProjects\Philips_Project\S3GP_Philips_GameServer\GameServer\GameServer\bin\Debug\netcoreapp3.1\GameServer.deps.json
+D:\GitProjects\Philips_Project\S3GP_Philips_GameServer\GameServer\GameServer\bin\Debug\netcoreapp3.1\GameServer.runtimeconfig.json
+D:\GitProjects\Philips_Project\S3GP_Philips_GameServer\GameServer\GameServer\bin\Debug\netcoreapp3.1\GameServer.runtimeconfig.dev.json
+D:\GitProjects\Philips_Project\S3GP_Philips_GameServer\GameServer\GameServer\bin\Debug\netcoreapp3.1\GameServer.dll
+D:\GitProjects\Philips_Project\S3GP_Philips_GameServer\GameServer\GameServer\bin\Debug\netcoreapp3.1\GameServer.pdb
+D:\GitProjects\Philips_Project\S3GP_Philips_GameServer\GameServer\GameServer\bin\Debug\netcoreapp3.1\websocket-sharp.dll
+D:\GitProjects\Philips_Project\S3GP_Philips_GameServer\GameServer\GameServer\obj\Debug\netcoreapp3.1\GameServer.csprojAssemblyReference.cache
+D:\GitProjects\Philips_Project\S3GP_Philips_GameServer\GameServer\GameServer\obj\Debug\netcoreapp3.1\GameServer.AssemblyInfoInputs.cache
+D:\GitProjects\Philips_Project\S3GP_Philips_GameServer\GameServer\GameServer\obj\Debug\netcoreapp3.1\GameServer.AssemblyInfo.cs
+D:\GitProjects\Philips_Project\S3GP_Philips_GameServer\GameServer\GameServer\obj\Debug\netcoreapp3.1\GameServer.csproj.CopyComplete
+D:\GitProjects\Philips_Project\S3GP_Philips_GameServer\GameServer\GameServer\obj\Debug\netcoreapp3.1\GameServer.dll
+D:\GitProjects\Philips_Project\S3GP_Philips_GameServer\GameServer\GameServer\obj\Debug\netcoreapp3.1\GameServer.pdb

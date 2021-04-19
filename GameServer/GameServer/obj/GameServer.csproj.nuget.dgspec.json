@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Github\\S3\\S3GP_Philips_GameServer\\GameServer\\GameServer\\GameServer.csproj": {}
+    "D:\\GitProjects\\Philips_Project\\S3GP_Philips_GameServer\\GameServer\\GameServer\\GameServer.csproj": {}
   },
   "projects": {
-    "D:\\Github\\S3\\S3GP_Philips_GameServer\\GameServer\\GameServer\\GameServer.csproj": {
+    "D:\\GitProjects\\Philips_Project\\S3GP_Philips_GameServer\\GameServer\\GameServer\\GameServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Github\\S3\\S3GP_Philips_GameServer\\GameServer\\GameServer\\GameServer.csproj",
+        "projectUniqueName": "D:\\GitProjects\\Philips_Project\\S3GP_Philips_GameServer\\GameServer\\GameServer\\GameServer.csproj",
         "projectName": "GameServer",
-        "projectPath": "D:\\Github\\S3\\S3GP_Philips_GameServer\\GameServer\\GameServer\\GameServer.csproj",
-        "packagesPath": "C:\\Users\\Tijn van Veghel\\.nuget\\packages\\",
-        "outputPath": "D:\\Github\\S3\\S3GP_Philips_GameServer\\GameServer\\GameServer\\obj\\",
+        "projectPath": "D:\\GitProjects\\Philips_Project\\S3GP_Philips_GameServer\\GameServer\\GameServer\\GameServer.csproj",
+        "packagesPath": "C:\\Users\\Fakeluc\\.nuget\\packages\\",
+        "outputPath": "D:\\GitProjects\\Philips_Project\\S3GP_Philips_GameServer\\GameServer\\GameServer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Tijn van Veghel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Fakeluc\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -58,7 +58,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
         }
       }
     }
