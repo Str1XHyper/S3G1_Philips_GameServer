@@ -2,6 +2,15 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v3.1": {
+      "WebSocketSharp/1.0.3-rc11": {
+        "type": "package",
+        "compile": {
+          "lib/websocket-sharp.dll": {}
+        },
+        "runtime": {
+          "lib/websocket-sharp.dll": {}
+        }
+      },
       "WebSocketSharp-netstandard/1.0.1": {
         "type": "package",
         "compile": {
@@ -10,10 +19,46 @@
         "runtime": {
           "lib/netstandard2.0/websocket-sharp.dll": {}
         }
+      },
+      "Logic/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "Models": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Logic.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Logic.dll": {}
+        }
+      },
+      "Models/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/Models.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Models.dll": {}
+        }
       }
     }
   },
   "libraries": {
+    "WebSocketSharp/1.0.3-rc11": {
+      "sha512": "7VCF7f7zVMOvLGD8LeGS4DVXc8lOcB6kXnUMeTxigu+PMiU+6wW5Olq2gYrDU8vDRKOwFY+5RyBaLyzb8skEzA==",
+      "type": "package",
+      "path": "websocketsharp/1.0.3-rc11",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/websocket-sharp.dll",
+        "lib/websocket-sharp.xml",
+        "websocketsharp.1.0.3-rc11.nupkg.sha512",
+        "websocketsharp.nuspec"
+      ]
+    },
     "WebSocketSharp-netstandard/1.0.1": {
       "sha512": "knoinAv31vbdxXdypnzN2MPX5hyntVLWceq6OdWRXkr9zzqp/RWbxSuLFGbkW8De1061URgNAN43BUTlgMx1CA==",
       "type": "package",
@@ -30,27 +75,40 @@
         "websocketsharp-netstandard.1.0.1.nupkg.sha512",
         "websocketsharp-netstandard.nuspec"
       ]
+    },
+    "Logic/1.0.0": {
+      "type": "project",
+      "path": "../Logic/Logic.csproj",
+      "msbuildProject": "../Logic/Logic.csproj"
+    },
+    "Models/1.0.0": {
+      "type": "project",
+      "path": "../Models/Models.csproj",
+      "msbuildProject": "../Models/Models.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
+      "Logic >= 1.0.0",
+      "Models >= 1.0.0",
+      "WebSocketSharp >= 1.0.3-rc11",
       "WebSocketSharp-netstandard >= 1.0.1"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Fakeluc\\.nuget\\packages\\": {}
+    "C:\\Users\\Tijn van Veghel\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\GitProjects\\Philips_Project\\S3GP_Philips_GameServer\\GameServer\\GameServer\\GameServer.csproj",
+      "projectUniqueName": "D:\\Github\\S3\\S3GP_Philips_GameServer\\GameServer\\GameServer\\GameServer.csproj",
       "projectName": "GameServer",
-      "projectPath": "D:\\GitProjects\\Philips_Project\\S3GP_Philips_GameServer\\GameServer\\GameServer\\GameServer.csproj",
-      "packagesPath": "C:\\Users\\Fakeluc\\.nuget\\packages\\",
-      "outputPath": "D:\\GitProjects\\Philips_Project\\S3GP_Philips_GameServer\\GameServer\\GameServer\\obj\\",
+      "projectPath": "D:\\Github\\S3\\S3GP_Philips_GameServer\\GameServer\\GameServer\\GameServer.csproj",
+      "packagesPath": "C:\\Users\\Tijn van Veghel\\.nuget\\packages\\",
+      "outputPath": "D:\\Github\\S3\\S3GP_Philips_GameServer\\GameServer\\GameServer\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Fakeluc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Tijn van Veghel\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -62,7 +120,14 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\Github\\S3\\S3GP_Philips_GameServer\\GameServer\\Logic\\Logic.csproj": {
+              "projectPath": "D:\\Github\\S3\\S3GP_Philips_GameServer\\GameServer\\Logic\\Logic.csproj"
+            },
+            "D:\\Github\\S3\\S3GP_Philips_GameServer\\GameServer\\Models\\Models.csproj": {
+              "projectPath": "D:\\Github\\S3\\S3GP_Philips_GameServer\\GameServer\\Models\\Models.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -74,6 +139,10 @@
     "frameworks": {
       "netcoreapp3.1": {
         "dependencies": {
+          "WebSocketSharp": {
+            "target": "Package",
+            "version": "[1.0.3-rc11, )"
+          },
           "WebSocketSharp-netstandard": {
             "target": "Package",
             "version": "[1.0.1, )"
@@ -94,8 +163,20 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'WebSocketSharp 1.0.3-rc11' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
+      "libraryId": "WebSocketSharp",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    }
+  ]
 }

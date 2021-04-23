@@ -1,10 +1,22 @@
 {
   "version": 2,
-  "dgSpecHash": "n1gTAhTSrkg/N7Td81yo3rRMNmEsqyfvVEFQfHEbcFWOAKRNmoTvycrMX76QQnDkZ+KIOY+eORkucQqV5tc0rQ==",
+  "dgSpecHash": "DoEnkdCiuqETVW+fNYafqr9Sxi01OaoMmuimd11G8bGp8A+CcWOskYrhgieyXkO/gmyw5Z36JCWLyB86RlHJ9g==",
   "success": true,
   "projectFilePath": "D:\\Github\\S3\\S3GP_Philips_GameServer\\GameServer\\GameServer\\GameServer.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Tijn van Veghel\\.nuget\\packages\\websocketsharp\\1.0.3-rc11\\websocketsharp.1.0.3-rc11.nupkg.sha512",
     "C:\\Users\\Tijn van Veghel\\.nuget\\packages\\websocketsharp-netstandard\\1.0.1\\websocketsharp-netstandard.1.0.1.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'WebSocketSharp 1.0.3-rc11' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
+      "libraryId": "WebSocketSharp",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    }
+  ]
 }
