@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 [Serializable]
 public class Question
 {
-    public string id;
-    public string question;
-    public string type;
-    public string answer;
+    public string id { get; set; }
+    public string question { get; set; }
+    public string type { get; set ; }
+    public List<Answer> answers { get; set; }
+
 }

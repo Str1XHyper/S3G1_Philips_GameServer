@@ -10,7 +10,7 @@ namespace GameServer
 {
     public class Mercier : WebSocketBehavior
     {
-        private Game game = new Game();
+        private Game game = new Game("ac04dcab-b025-45ff-b90a-d15b73759284");
         protected override void OnOpen()
         {
             Console.WriteLine("Open socket");

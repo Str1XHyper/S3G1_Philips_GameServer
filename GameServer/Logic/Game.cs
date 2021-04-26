@@ -1,32 +1,26 @@
 ﻿using Models.Message;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Logic
 {
-    //public enum GameState
-    //{
-    //    START,
-    //    TURN,
-    //    QUESTION,
-    //    END,
-
-    //}
     public class Game
     {
         private List<Player> players = new List<Player>();
         private Bank bank = new Bank();
         private int currentPlayerIndex = 0;
-        //private GameState state;
+        private int amountPlayersAnsweredQuestion = 0;
+        private List<Question> questions;
+        private int currentQuestionIndex = 0;
 
-        public Game()
+
+        public Game(string LessonId)
         {
-            //state = GameState.START;
-            //players.Add(new Player("0"));
-            //players.Add(new Player("1"));
-            //players.Add(new Player("2"));
-            //players.Add(new Player("3"));
+            questions = GetQuestions(LessonId);
         }
 
         public string HandleSocketMessage(string jsonString)
@@ -58,6 +52,7 @@ namespace Logic
                     response = HandleStarPurchase(JsonSerializer.Deserialize<BoughtStar>(jsonString));
                     break;
                 case MessageType.ANSWERED_QUESTION:
+                    response = HandleAnswerQuestion(JsonSerializer.Deserialize<AnsweredQuestion>(jsonString));
                     break;
                 case MessageType.PLAYER_JOIN:
                     response = HandlePlayerJoin(JsonSerializer.Deserialize<PlayerJoinMessage>(jsonString));
@@ -67,13 +62,31 @@ namespace Logic
             return response;
         }
 
+        private string HandleAnswerQuestion(AnsweredQuestion answeredQuestion)
+        {
+            Player player = GetPlayerFromID(answeredQuestion.playerId);
+            if(questions[currentQuestionIndex].answers[0].answer == answeredQuestion.answer)
+            {
+                player.AddPoints(1);
+            }
+            amountPlayersAnsweredQuestion += 1;
+            if(amountPlayersAnsweredQuestion >= players.Count)
+            {
+                amountPlayersAnsweredQuestion = 0;
+                currentQuestionIndex += 1;
+                return JsonSerializer.Serialize(new StartTurnResponse(players[0].PlayerID));
+            }
+            return "";
+        }
+
         private string HandleTurnEnd()
         {
             currentPlayerIndex += 1;
             if(currentPlayerIndex == players.Count)
             {
                 currentPlayerIndex = 0;
-                return JsonSerializer.Serialize(new QuestionResponse(""));
+                questions[currentQuestionIndex].answers = GetAnswers(questions[currentQuestionIndex].id);
+                return JsonSerializer.Serialize(new QuestionResponse("", questions[currentQuestionIndex]));
             } 
             else
             {
@@ -83,9 +96,15 @@ namespace Logic
 
         private string HandlePlayerJoin(PlayerJoinMessage playerJoinMessage)
         {
+            //Player Rejoin 
             Player player = new Player(playerJoinMessage.playerId);
             players.Add(player);
-            PlayerJoinResponse playerJoinResponse = new PlayerJoinResponse(player.PlayerID, players.Count);
+            List<string> playerIds = new List<string>();
+            foreach(Player playerObject in players)
+            {
+                playerIds.Add(playerObject.PlayerID);
+            }
+            PlayerJoinResponse playerJoinResponse = new PlayerJoinResponse(player.PlayerID, playerIds);
             return JsonSerializer.Serialize(playerJoinResponse);
         }
 
@@ -181,6 +200,29 @@ namespace Logic
                 }
             }
             return null;
+        }
+
+        private static List<Question> GetQuestions(string LessonID)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:3000/Question/"+LessonID);
+            using var webResponse = request.GetResponse();
+            using var webStream = webResponse.GetResponseStream();
+
+            using var reader = new StreamReader(webStream);
+            var data = reader.ReadToEnd();
+            return JsonSerializer.Deserialize<List<Question>>(data);
+        }
+
+        private static List<Answer> GetAnswers(string questionID)
+        {
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:3000/Answer/" + questionID);
+            using var webResponse = request.GetResponse();
+            using var webStream = webResponse.GetResponseStream();
+
+            using var reader = new StreamReader(webStream);
+            var data = reader.ReadToEnd();
+            return JsonSerializer.Deserialize<List<Answer>>(data);
         }
     }
 }

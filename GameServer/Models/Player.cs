@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Logic
-{
     public class Player
     {
         private string playerID;
@@ -35,9 +33,8 @@ namespace Logic
             }
         }
 
-        internal void AddStar(int amount)
+        public void AddStar(int amount)
         {
             stars += amount;
         }
     }
-}

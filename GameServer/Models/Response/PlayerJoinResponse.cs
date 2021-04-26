@@ -4,11 +4,11 @@ using System.Text;
 
 public class PlayerJoinResponse : SocketResponse
 {
-    public int amountOfPlayers;
+    public List<string> players { get; set; }
 
-    public PlayerJoinResponse(string playerId, int _amountOfPlayers) : base(playerId)
+    public PlayerJoinResponse(string playerId, List<string> _players) : base(playerId)
     {
-        amountOfPlayers = _amountOfPlayers;
+        players = _players;
         responseType = ResponseType.PLAYER_JOIN;
     }
 }
