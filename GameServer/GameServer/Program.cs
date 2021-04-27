@@ -33,7 +33,12 @@ namespace GameServer
         protected override void OnMessage(MessageEventArgs e)
         {
             string response = Program.game.HandleSocketMessage(e.Data);
-            Send(response);
+            
+            foreach(string id in Sessions.ActiveIDs)
+            {
+                Sessions.SendTo(response, id);
+            }
+            //Send(response);
         }
 
         protected override void OnClose(CloseEventArgs e)
@@ -54,6 +59,7 @@ namespace GameServer
             var wssv = new WebSocketServer("ws://localhost:4000");
             wssv.AddWebSocketService<Mercier>("/Mercier");
             wssv.Start();
+            
             Console.ReadKey(true);
             wssv.Stop();
         }

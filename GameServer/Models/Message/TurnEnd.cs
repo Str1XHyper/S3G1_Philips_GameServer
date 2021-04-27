@@ -10,9 +10,11 @@ namespace Models.Message
     [Serializable]
     public class TurnEnd : SocketMessage
     {
-        public TurnEnd(string playerId) : base(playerId)
+        public int currentTileIndex { get; set; }
+        public TurnEnd(string playerId, int currentTile) : base(playerId)
         {
             messageType = MessageType.TURN_END;
+            currentTileIndex = currentTile;
         }
     }
 }

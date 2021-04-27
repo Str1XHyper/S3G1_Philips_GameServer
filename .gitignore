@@ -348,3 +348,9 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+GameServer/GameServer/bin/Debug/netcoreapp3.1/GameServer.dll
+
+GameServer/GameServer/obj/Debug/netcoreapp3.1/GameServer.csprojAssemblyReference.cache
+
+GameServer/GameServer/obj/Debug/netcoreapp3.1/GameServer.dll
