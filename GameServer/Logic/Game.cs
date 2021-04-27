@@ -20,7 +20,17 @@ namespace Logic
 
         public Game(string LessonId)
         {
-            questions = GetQuestions(LessonId);
+            //Release
+            //questions = GetQuestions(LessonId);
+
+            //Testing
+            questions = new List<Question>();
+            var temp = new Question();
+            temp.question = "2+7";
+            temp.type = "Open";
+            temp.id = "1";
+            temp.answers = new List<Answer>();
+            questions.Add(temp);
         }
 
         public string HandleSocketMessage(string jsonString)
@@ -65,15 +75,15 @@ namespace Logic
         private string HandleAnswerQuestion(AnsweredQuestion answeredQuestion)
         {
             Player player = GetPlayerFromID(answeredQuestion.playerId);
-            if(questions[currentQuestionIndex].answers[0].answer == answeredQuestion.answer)
-            {
-                player.AddPoints(1);
-            }
+            //if(questions[currentQuestionIndex].answers[0].answer == answeredQuestion.answer)
+            //{
+            //    player.AddPoints(1);
+            //}
             amountPlayersAnsweredQuestion += 1;
             if(amountPlayersAnsweredQuestion >= players.Count)
             {
                 amountPlayersAnsweredQuestion = 0;
-                currentQuestionIndex += 1;
+                //currentQuestionIndex += 1;
                 return JsonSerializer.Serialize(new StartTurnResponse(players[0].PlayerID));
             }
             return "";
@@ -85,7 +95,7 @@ namespace Logic
             if(currentPlayerIndex == players.Count)
             {
                 currentPlayerIndex = 0;
-                questions[currentQuestionIndex].answers = GetAnswers(questions[currentQuestionIndex].id);
+                //questions[currentQuestionIndex].answers = GetAnswers(questions[currentQuestionIndex].id);
                 return JsonSerializer.Serialize(new QuestionResponse("", questions[currentQuestionIndex]));
             } 
             else

@@ -1,6 +1,7 @@
 ﻿using Logic;
 using Models.Message;
 using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using WebSocketSharp;
@@ -10,9 +11,13 @@ namespace GameServer
 {
     public class Mercier : WebSocketBehavior
     {
-        private Game game = new Game("ac04dcab-b025-45ff-b90a-d15b73759284");
+        //private Game game = new Game("ac04dcab-b025-45ff-b90a-d15b73759284");
         protected override void OnOpen()
         {
+            if (Program.game == null)
+            {
+                Program.game = new Game("ac04dcab-b025-45ff-b90a-d15b73759284");
+            }
             Console.WriteLine("Open socket");
         }
 
@@ -27,7 +32,7 @@ namespace GameServer
 
         protected override void OnMessage(MessageEventArgs e)
         {
-            string response = game.HandleSocketMessage(e.Data);
+            string response = Program.game.HandleSocketMessage(e.Data);
             Send(response);
         }
 
@@ -40,6 +45,10 @@ namespace GameServer
     }
     public class Program
     {
+        //TODO Implement multiple games
+        //public static List<Game> activeGames = new List<Game>();
+
+        public static Game game = null;
         static void Main(string[] args)
         {
             var wssv = new WebSocketServer("ws://localhost:4000");
