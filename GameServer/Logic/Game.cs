@@ -48,7 +48,6 @@ namespace Logic
 
         public string HandleSocketMessage(string jsonString)
         {
-            Console.WriteLine(jsonString);
             SocketMessage message = JsonSerializer.Deserialize<SocketMessage>(jsonString);
             string response = string.Empty;
             switch (message.messageType)
@@ -81,7 +80,6 @@ namespace Logic
                 //    response = HandlePlayerJoin(JsonSerializer.Deserialize<PlayerJoinMessage>(jsonString));
                 //    break;
             }
-            Console.WriteLine(response);
             return response;
         }
 

@@ -34,17 +34,26 @@ namespace GameServer
 
         protected override void OnMessage(MessageEventArgs e)
         {
+            string response;
+            Console.WriteLine(e.Data);
             SocketMessage message = JsonSerializer.Deserialize<SocketMessage>(e.Data);
             if(message.messageType== MessageType.PLAYER_JOIN)
             {
                 PlayerJoinMessage playerJoinMessage = JsonSerializer.Deserialize<PlayerJoinMessage>(e.Data);
 
-                Program.GameDict.TryGetValue(playerJoinMessage.LessonID, out game);
-                game.HandlePlayerJoin(playerJoinMessage, ID);
-            }
 
-            string response = Program.game.HandleSocketMessage(e.Data);
-            
+                if(!Program.GameDict.TryGetValue(playerJoinMessage.LessonID, out game))
+                {
+                    game = new Game(playerJoinMessage.LessonID);
+                    Program.GameDict.Add(playerJoinMessage.LessonID,game);
+                }
+                response = game.HandlePlayerJoin(playerJoinMessage, ID);
+            }
+            else
+            {
+                response = Program.game.HandleSocketMessage(e.Data);
+            }
+            Console.WriteLine(response);
             foreach(string id in Sessions.ActiveIDs)
             {
                 Sessions.SendTo(response, id);
