@@ -42,11 +42,11 @@ namespace GameServer
                 PlayerJoinMessage playerJoinMessage = JsonSerializer.Deserialize<PlayerJoinMessage>(e.Data);
                 
 
-                if(!Program.GameDict.ContainsKey(playerJoinMessage.LessonID))
+                if(!Program.GameDict.ContainsKey(playerJoinMessage.LessonId))
                 {
-                    Program.GameDict.TryGetValue(playerJoinMessage.LessonID, out game);
-                    game = new Game(playerJoinMessage.LessonID);
-                    Program.GameDict.Add(playerJoinMessage.LessonID,game);
+                    game = Program.GameDict[playerJoinMessage.LessonId];
+                    game = new Game(playerJoinMessage.LessonId);
+                    Program.GameDict.Add(playerJoinMessage.LessonId,game);
                 }
                 response = game.HandlePlayerJoin(playerJoinMessage, ID);
             }
@@ -78,7 +78,6 @@ namespace GameServer
         public static Game game = null;
         static void Main(string[] args)
         {
-            GameDict.Add("-1", new Game("-1"));
             var wssv = new WebSocketServer("ws://localhost:4000");
             wssv.AddWebSocketService<Mercier>("/Mercier");
             wssv.Start();
