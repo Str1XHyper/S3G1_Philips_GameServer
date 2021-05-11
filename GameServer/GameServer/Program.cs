@@ -42,8 +42,9 @@ namespace GameServer
                 PlayerJoinMessage playerJoinMessage = JsonSerializer.Deserialize<PlayerJoinMessage>(e.Data);
 
 
-                if(!Program.GameDict.TryGetValue(playerJoinMessage.LessonID, out game))
+                if(!Program.GameDict.ContainsKey(playerJoinMessage.LessonID))
                 {
+                    Program.GameDict.TryGetValue(playerJoinMessage.LessonID, out game);
                     game = new Game(playerJoinMessage.LessonID);
                     Program.GameDict.Add(playerJoinMessage.LessonID,game);
                 }
