@@ -40,7 +40,7 @@ namespace GameServer
             if(message.messageType== MessageType.PLAYER_JOIN)
             {
                 PlayerJoinMessage playerJoinMessage = JsonSerializer.Deserialize<PlayerJoinMessage>(e.Data);
-
+                
 
                 if(!Program.GameDict.ContainsKey(playerJoinMessage.LessonID))
                 {
@@ -78,6 +78,7 @@ namespace GameServer
         public static Game game = null;
         static void Main(string[] args)
         {
+            GameDict.Add("-1", new Game("-1"));
             var wssv = new WebSocketServer("ws://localhost:4000");
             wssv.AddWebSocketService<Mercier>("/Mercier");
             wssv.Start();
