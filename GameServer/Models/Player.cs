@@ -5,19 +5,25 @@ using System.Text;
 public class Player
 {
     private string playerID;
+    private string sessionID;
+    private string username;
     private int points;
     private int stars;
 
-    public Player(string playerID)
+    public Player(string playerID, string sessionId, string username)
     {
         this.playerID = playerID;
-        this.points = 0;
-        this.stars = 0;
+        points = 0;
+        stars = 0;
+        sessionID = sessionId;
+        this.username = username;
     }
 
     public string PlayerID { get => playerID; }
     public int Points { get => points; }
     public int Stars { get => stars; }
+    public string SessionID { get => sessionID;}
+    public string Username { get => username; }
 
     public void AddPoints(int amount)
     {

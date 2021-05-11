@@ -4,9 +4,9 @@ using System.Text;
 
 public class PlayerJoinResponse : SocketResponse
 {
-    public List<string> players { get; set; }
+    public List<Player> players { get; set; }
 
-    public PlayerJoinResponse(string playerId, List<string> _players) : base(playerId)
+    public PlayerJoinResponse(string playerId, List<Player> _players) : base(playerId)
     {
         players = _players;
         responseType = ResponseType.PLAYER_JOIN;

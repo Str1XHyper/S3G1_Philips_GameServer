@@ -12,4 +12,11 @@ public class ScoreResponse : SocketResponse
         Points = points;
         Stars = stars;
     }
+
+    public ScoreResponse(Player player) : base(player.PlayerID)
+    {
+        responseType = ResponseType.SCORE;
+        Points = player.Points;
+        Stars = player.Stars;
+    }
 }

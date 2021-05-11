@@ -32,6 +32,19 @@ namespace Logic
             temp.answers = new List<Answer>();
             questions.Add(temp);
         }
+        public string HandlePlayerJoin(PlayerJoinMessage message, string SessionID)
+        {
+            //Player Rejoin 
+            Player player = new Player(message.playerId, SessionID,message.Username);
+            players.Add(player);
+            List<string> playerIds = new List<string>();
+            foreach (Player playerObject in players)
+            {
+                playerIds.Add(playerObject.PlayerID);
+            }
+            PlayerJoinResponse playerJoinResponse = new PlayerJoinResponse(player.PlayerID, players);
+            return JsonSerializer.Serialize(playerJoinResponse);
+        }
 
         public string HandleSocketMessage(string jsonString)
         {
@@ -64,9 +77,9 @@ namespace Logic
                 case MessageType.ANSWERED_QUESTION:
                     response = HandleAnswerQuestion(JsonSerializer.Deserialize<AnsweredQuestion>(jsonString));
                     break;
-                case MessageType.PLAYER_JOIN:
-                    response = HandlePlayerJoin(JsonSerializer.Deserialize<PlayerJoinMessage>(jsonString));
-                    break;
+                //case MessageType.PLAYER_JOIN:
+                //    response = HandlePlayerJoin(JsonSerializer.Deserialize<PlayerJoinMessage>(jsonString));
+                //    break;
             }
             Console.WriteLine(response);
             return response;
@@ -75,15 +88,15 @@ namespace Logic
         private string HandleAnswerQuestion(AnsweredQuestion answeredQuestion)
         {
             Player player = GetPlayerFromID(answeredQuestion.playerId);
-            //if(questions[currentQuestionIndex].answers[0].answer == answeredQuestion.answer)
-            //{
-            //    player.AddPoints(1);
-            //}
+            if (questions[currentQuestionIndex].answers[0].answer == answeredQuestion.answer)
+            {
+                player.AddPoints(1);
+            }
             amountPlayersAnsweredQuestion += 1;
             if(amountPlayersAnsweredQuestion >= players.Count)
             {
                 amountPlayersAnsweredQuestion = 0;
-                //currentQuestionIndex += 1;
+                currentQuestionIndex += 1;
                 return JsonSerializer.Serialize(new StartTurnResponse(players[0].PlayerID));
             }
             return "";
@@ -95,7 +108,7 @@ namespace Logic
             if(currentPlayerIndex == players.Count)
             {
                 currentPlayerIndex = 0;
-                //questions[currentQuestionIndex].answers = GetAnswers(questions[currentQuestionIndex].id);
+                questions[currentQuestionIndex].answers = GetAnswers(questions[currentQuestionIndex].id);
                 return JsonSerializer.Serialize(new QuestionResponse("", questions[currentQuestionIndex]));
             } 
             else
@@ -104,19 +117,19 @@ namespace Logic
             }
         }
 
-        private string HandlePlayerJoin(PlayerJoinMessage playerJoinMessage)
-        {
-            //Player Rejoin 
-            Player player = new Player(playerJoinMessage.playerId);
-            players.Add(player);
-            List<string> playerIds = new List<string>();
-            foreach(Player playerObject in players)
-            {
-                playerIds.Add(playerObject.PlayerID);
-            }
-            PlayerJoinResponse playerJoinResponse = new PlayerJoinResponse(player.PlayerID, playerIds);
-            return JsonSerializer.Serialize(playerJoinResponse);
-        }
+        //private string HandlePlayerJoin(PlayerJoinMessage playerJoinMessage)
+        //{
+        //    Player Rejoin
+        //    Player player = new Player(playerJoinMessage.playerId);
+        //    players.Add(player);
+        //    List<string> playerIds = new List<string>();
+        //    foreach (Player playerObject in players)
+        //    {
+        //        playerIds.Add(playerObject.PlayerID);
+        //    }
+        //    PlayerJoinResponse playerJoinResponse = new PlayerJoinResponse(player.PlayerID, playerIds);
+        //    return JsonSerializer.Serialize(playerJoinResponse);
+        //}
 
         private string HandleStarPurchase(BoughtStar boughtStar)
         {
@@ -126,14 +139,14 @@ namespace Logic
                 player.AddStar(1);
                 player.SubtractPoints(5);
             }
-            return JsonSerializer.Serialize(CreateScoreResponse(player));
+            return JsonSerializer.Serialize(CreateScoreResponse());
         }
 
         private string HandlePassStart(PassedStart passedStart)
         {
             Player player = GetPlayerFromID(passedStart.playerId);
             player.AddPoints(2);
-            return JsonSerializer.Serialize(CreateScoreResponse(player));
+            return JsonSerializer.Serialize(CreateScoreResponse());
         }
 
         private string HandlePassBank(PassedBank passedBank)
@@ -142,7 +155,7 @@ namespace Logic
             int scoreToAddToBank = player.Points > 1 ? 2 : player.Points;
             bank.AddMoneyToBank(scoreToAddToBank);
             player.SubtractPoints(scoreToAddToBank);
-            return JsonSerializer.Serialize(CreateScoreResponse(player));
+            return JsonSerializer.Serialize(CreateScoreResponse());
         }
 
         private string HandleChooseDirection(DirectionChosen directionChosen)
@@ -183,9 +196,14 @@ namespace Logic
             player.AddPoints(receivedMoney);
         }
 
-        private ScoreResponse CreateScoreResponse(Player player)
+        private List<ScoreResponse> CreateScoreResponse()
         {
-            return new ScoreResponse(player.PlayerID, player.Points, player.Stars);
+            List<ScoreResponse> scoreResponses = new List<ScoreResponse>();
+            foreach(Player player in players)
+            {
+                scoreResponses.Add(new ScoreResponse(player));
+            }
+            return scoreResponses;
         }
 
         private bool CanBuyStar(Player player)
