@@ -43,4 +43,9 @@ public class Player
     {
         stars += amount;
     }
+
+    public void SetSessionID(string id)
+    {
+        sessionID = id;
+    }
 }

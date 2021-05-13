@@ -38,6 +38,11 @@ namespace Logic
             {
                 Player newPlayer = new Player(message.playerId, SessionID, message.Username);
                 players.Add(newPlayer);
+            } 
+            else
+            {
+                Player player = GetPlayerFromID(message.playerId);
+                player.SetSessionID(SessionID);
             }
             PlayerJoinResponse playerJoinResponse = new PlayerJoinResponse(message.playerId, players);
             ResponseObject responseObject = new ResponseObject()

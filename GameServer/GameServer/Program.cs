@@ -16,10 +16,6 @@ namespace GameServer
         protected override void OnOpen()
         {
             Console.WriteLine("Open socket");
-            foreach(string id in Sessions.IDs)
-            {
-                Console.WriteLine(ID == id);
-            }
         }
 
         protected override void OnError(ErrorEventArgs e)
@@ -55,10 +51,6 @@ namespace GameServer
             else
             {
                 response = game.HandleSocketMessage(e.Data);
-            }
-            foreach(string session in response.sessions)
-            {
-                Console.WriteLine(response.sessions);
             }
             foreach(string id in response.sessions)
             {
