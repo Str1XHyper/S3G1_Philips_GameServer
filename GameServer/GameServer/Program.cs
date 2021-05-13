@@ -15,12 +15,7 @@ namespace GameServer
         //private Game game = new Game("ac04dcab-b025-45ff-b90a-d15b73759284");
         protected override void OnOpen()
         {
-            if (Program.game == null)
-            {
-                Program.game = new Game("ac04dcab-b025-45ff-b90a-d15b73759284");
-            }
             Console.WriteLine("Open socket");
-            
         }
 
         protected override void OnError(ErrorEventArgs e)
@@ -34,32 +29,34 @@ namespace GameServer
 
         protected override void OnMessage(MessageEventArgs e)
         {
-            string response;
+            ResponseObject response;
             Console.WriteLine(e.Data);
             SocketMessage message = JsonSerializer.Deserialize<SocketMessage>(e.Data);
-            if(message.messageType== MessageType.PLAYER_JOIN)
+            if(message.messageType == MessageType.PLAYER_JOIN)
             {
                 PlayerJoinMessage playerJoinMessage = JsonSerializer.Deserialize<PlayerJoinMessage>(e.Data);
                 
 
                 if(!Program.GameDict.ContainsKey(playerJoinMessage.LessonId))
                 {
-                    game = Program.GameDict[playerJoinMessage.LessonId];
                     game = new Game(playerJoinMessage.LessonId);
                     Program.GameDict.Add(playerJoinMessage.LessonId,game);
+                } 
+                else
+                {
+                    game = Program.GameDict[playerJoinMessage.LessonId];
                 }
                 response = game.HandlePlayerJoin(playerJoinMessage, ID);
             }
             else
             {
-                response = Program.game.HandleSocketMessage(e.Data);
+                response = game.HandleSocketMessage(e.Data);
             }
             Console.WriteLine(response);
-            foreach(string id in Sessions.ActiveIDs)
+            foreach(string id in response.sessions)
             {
-                Sessions.SendTo(response, id);
+                Sessions.SendTo(response.ResponseString, id);
             }
-            //Send(response);
         }
 
         protected override void OnClose(CloseEventArgs e)
@@ -72,10 +69,7 @@ namespace GameServer
     public class Program
     {
         public static Dictionary<string, Game> GameDict = new Dictionary<string, Game>();
-        //TODO Implement multiple games
-        //public static List<Game> activeGames = new List<Game>();
 
-        public static Game game = null;
         static void Main(string[] args)
         {
             var wssv = new WebSocketServer("ws://localhost:4000");

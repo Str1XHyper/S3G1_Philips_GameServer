@@ -20,33 +20,35 @@ namespace Logic
 
         public Game(string LessonId)
         {
-            //Release
-            //questions = GetQuestions(LessonId);
-
-            //Testing
-            questions = new List<Question>();
-            var temp = new Question();
-            temp.question = "2+7";
-            temp.type = "Open";
-            temp.id = "1";
-            temp.answers = new List<Answer>();
-            questions.Add(temp);
+            questions = GetQuestions(LessonId);
         }
-        public string HandlePlayerJoin(PlayerJoinMessage message, string SessionID)
+        public ResponseObject HandlePlayerJoin(PlayerJoinMessage message, string SessionID)
         {
-            //Player Rejoin 
-            Player player = new Player(message.playerId, SessionID,message.Username);
-            players.Add(player);
-            List<string> playerIds = new List<string>();
-            foreach (Player playerObject in players)
+            bool playerExists = false;
+            foreach(Player player in players)
             {
-                playerIds.Add(playerObject.PlayerID);
+                if(message.playerId == player.PlayerID)
+                {
+                    playerExists = true;
+                    break;
+                }
             }
-            PlayerJoinResponse playerJoinResponse = new PlayerJoinResponse(player.PlayerID, players);
-            return JsonSerializer.Serialize(playerJoinResponse);
+
+            if (!playerExists)
+            {
+                Player newPlayer = new Player(message.playerId, SessionID, message.Username);
+                players.Add(newPlayer);
+            }
+            PlayerJoinResponse playerJoinResponse = new PlayerJoinResponse(message.playerId, players);
+            ResponseObject responseObject = new ResponseObject()
+            {
+                ResponseString = JsonSerializer.Serialize(playerJoinResponse),
+                sessions = getSessions()
+            };
+            return responseObject;
         }
 
-        public string HandleSocketMessage(string jsonString)
+        public ResponseObject HandleSocketMessage(string jsonString)
         {
             SocketMessage message = JsonSerializer.Deserialize<SocketMessage>(jsonString);
             string response = string.Empty;
@@ -76,11 +78,13 @@ namespace Logic
                 case MessageType.ANSWERED_QUESTION:
                     response = HandleAnswerQuestion(JsonSerializer.Deserialize<AnsweredQuestion>(jsonString));
                     break;
-                //case MessageType.PLAYER_JOIN:
-                //    response = HandlePlayerJoin(JsonSerializer.Deserialize<PlayerJoinMessage>(jsonString));
-                //    break;
             }
-            return response;
+            ResponseObject responseObject = new ResponseObject()
+            {
+                ResponseString = response,
+                sessions = getSessions()
+            };
+            return responseObject;
         }
 
         private string HandleAnswerQuestion(AnsweredQuestion answeredQuestion)
@@ -114,20 +118,6 @@ namespace Logic
                 return JsonSerializer.Serialize(new StartTurnResponse(players[currentPlayerIndex].PlayerID));
             }
         }
-
-        //private string HandlePlayerJoin(PlayerJoinMessage playerJoinMessage)
-        //{
-        //    Player Rejoin
-        //    Player player = new Player(playerJoinMessage.playerId);
-        //    players.Add(player);
-        //    List<string> playerIds = new List<string>();
-        //    foreach (Player playerObject in players)
-        //    {
-        //        playerIds.Add(playerObject.PlayerID);
-        //    }
-        //    PlayerJoinResponse playerJoinResponse = new PlayerJoinResponse(player.PlayerID, playerIds);
-        //    return JsonSerializer.Serialize(playerJoinResponse);
-        //}
 
         private string HandleStarPurchase(BoughtStar boughtStar)
         {
@@ -230,7 +220,7 @@ namespace Logic
 
         private static List<Question> GetQuestions(string LessonID)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:3000/Question/"+LessonID);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://api.str1xhyper.nl/Question/"+LessonID);
             using var webResponse = request.GetResponse();
             using var webStream = webResponse.GetResponseStream();
 
@@ -242,13 +232,23 @@ namespace Logic
         private static List<Answer> GetAnswers(string questionID)
         {
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:3000/Answer/" + questionID);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://api.str1xhyper.nl/Answer/" + questionID);
             using var webResponse = request.GetResponse();
             using var webStream = webResponse.GetResponseStream();
 
             using var reader = new StreamReader(webStream);
             var data = reader.ReadToEnd();
             return JsonSerializer.Deserialize<List<Answer>>(data);
+        }
+
+        private List<string> getSessions()
+        {
+            List<string> response = new List<string>();
+            foreach(Player player in players)
+            {
+                response.Add(player.SessionID);
+            }
+            return response;
         }
     }
 }
