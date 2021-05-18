@@ -30,7 +30,8 @@ namespace GameServer
         protected override void OnMessage(MessageEventArgs e)
         {
             ResponseObject response;
-            Console.WriteLine(e.Data);
+            Console.WriteLine("Received: " + e.Data);
+
             SocketMessage message = JsonSerializer.Deserialize<SocketMessage>(e.Data);
             if(message.messageType == MessageType.PLAYER_JOIN)
             {

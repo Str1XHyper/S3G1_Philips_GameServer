@@ -83,6 +83,9 @@ namespace Logic
                 case MessageType.ANSWERED_QUESTION:
                     response = HandleAnswerQuestion(JsonSerializer.Deserialize<AnsweredQuestion>(jsonString));
                     break;
+                case MessageType.START_GAME:
+                    response = StartGame();
+                    break;
             }
             ResponseObject responseObject = new ResponseObject()
             {
@@ -90,6 +93,11 @@ namespace Logic
                 sessions = getSessions()
             };
             return responseObject;
+        }
+
+        private string StartGame()
+        {
+            return JsonSerializer.Serialize(new StartTurnResponse(players[currentPlayerIndex].PlayerID));
         }
 
         private string HandleAnswerQuestion(AnsweredQuestion answeredQuestion)
