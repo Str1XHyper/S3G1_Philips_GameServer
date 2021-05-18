@@ -87,6 +87,7 @@ namespace Logic
                     response = StartGame();
                     break;
             }
+            Console.WriteLine("Sent: " + response);
             ResponseObject responseObject = new ResponseObject()
             {
                 ResponseString = response,
