@@ -113,6 +113,12 @@ namespace Logic
             {
                 amountPlayersAnsweredQuestion = 0;
                 currentQuestionIndex += 1;
+
+                if(currentQuestionIndex >= questions.Count)
+                {
+                    return JsonSerializer.Serialize(new EndGameResponse(""));
+                }
+
                 return JsonSerializer.Serialize(new StartTurnResponse(players[0].PlayerID));
             }
             return "";

@@ -12,6 +12,8 @@ public enum ResponseType
     SCORE,
     PLAYER_JOIN,
     DIRECTION_CHOSEN,
+    END_TURN,
+    END_GAME
 }
 
 [Serializable]
