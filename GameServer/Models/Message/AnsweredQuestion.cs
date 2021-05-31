@@ -10,6 +10,11 @@ namespace Models.Message
     {
         public string answer;
 
+        public AnsweredQuestion()
+        {
+
+        }
+
         public AnsweredQuestion(string playerId, string answer) : base(playerId)
         {
             messageType = MessageType.ANSWERED_QUESTION;
