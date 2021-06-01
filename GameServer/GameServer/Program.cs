@@ -40,8 +40,18 @@ namespace GameServer
 
                 if(!Program.GameDict.ContainsKey(playerJoinMessage.LessonId))
                 {
-                    game = new Game(playerJoinMessage.LessonId);
-                    Program.GameDict.Add(playerJoinMessage.LessonId,game);
+                    try
+                    {
+                        game = new Game(playerJoinMessage.LessonId);
+                        Program.GameDict.Add(playerJoinMessage.LessonId, game);
+                    } 
+                    catch (ArgumentException ex)
+                    {
+                        Send(ex.Message);
+                    }catch(Exception ex)
+                    {
+                        Send(ex.Message);
+                    }
                 } 
                 else
                 {

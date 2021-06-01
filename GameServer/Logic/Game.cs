@@ -20,6 +20,10 @@ namespace Logic
 
         public Game(string LessonId)
         {
+            if(string.IsNullOrEmpty(LessonId))
+            {
+                throw new ArgumentException("LessonID cannot be null or empty");
+            }
             questions = GetQuestions(LessonId);
         }
         public ResponseObject HandlePlayerJoin(PlayerJoinMessage message, string SessionID)
