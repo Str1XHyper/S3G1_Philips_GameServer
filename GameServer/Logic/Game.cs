@@ -28,6 +28,20 @@ namespace Logic
         }
         public ResponseObject HandlePlayerJoin(PlayerJoinMessage message, string SessionID)
         {
+            if (string.IsNullOrEmpty(SessionID))
+            {
+                throw new ArgumentException("SessionID cannot be null or empty");
+            } else if (message == null)
+            {
+                throw new ArgumentException("PlayerJoinMessage object cannot be null");
+            } else if (string.IsNullOrEmpty(message.playerId))
+            {
+                throw new ArgumentException("PlayerID in PlayerJoinMessage cannot be null or empty");
+            } else if (string.IsNullOrEmpty(message.Username))
+            {
+                throw new ArgumentException("Username in PlayerJoinMessage cannot be null or empty");
+            }
+
             bool playerExists = false;
             foreach(Player player in players)
             {
@@ -59,6 +73,11 @@ namespace Logic
 
         public ResponseObject HandleSocketMessage(string jsonString)
         {
+            if (string.IsNullOrEmpty(jsonString))
+            {
+                throw new ArgumentException("JsonString cannot be null");
+            }
+
             SocketMessage message = JsonSerializer.Deserialize<SocketMessage>(jsonString);
             string response = string.Empty;
             switch (message.messageType)

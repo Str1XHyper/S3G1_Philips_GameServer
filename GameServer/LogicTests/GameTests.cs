@@ -70,7 +70,7 @@ namespace Logic.Tests
 
             #region Player 2
             PlayerJoinMessage message2 = new PlayerJoinMessage("2");
-            message.Username = "henk";
+            message2.Username = "henk";
             string sessionID2 = "16";
             #endregion
 
@@ -85,6 +85,84 @@ namespace Logic.Tests
             //Assert
             Assert.AreEqual(expected.ResponseString, response.ResponseString);
             CollectionAssert.AreEqual(expected.sessions, response.sessions);
+        }
+
+
+        [TestMethod()]
+        public void HandlePlayerJoin_SessionID_Empty()
+        {
+            //Arrange
+            Game game = new Game("ac04dcab-b025-45ff-b90a-d15b73759284");
+            PlayerJoinMessage message = new PlayerJoinMessage("1");
+            message.Username = "piet";
+            string sessionID = "";
+
+            //Assert
+            Assert.ThrowsException<ArgumentException>(() => game.HandlePlayerJoin(message, sessionID));
+        }
+
+        [TestMethod()]
+        public void HandlePlayerJoin_SessionID_Null()
+        {
+            //Arrange
+            Game game = new Game("ac04dcab-b025-45ff-b90a-d15b73759284");
+            PlayerJoinMessage message = new PlayerJoinMessage("1");
+            message.Username = "piet";
+            string sessionID = null;
+
+            //Assert
+            Assert.ThrowsException<ArgumentException>(() => game.HandlePlayerJoin(message, sessionID));
+        }
+        [TestMethod()]
+        public void HandlePlayerJoin_PlayerID_Empty()
+        {
+            //Arrange
+            Game game = new Game("ac04dcab-b025-45ff-b90a-d15b73759284");
+            PlayerJoinMessage message = new PlayerJoinMessage("");
+            message.Username = "piet";
+            string sessionID = "1";
+
+            //Assert
+            Assert.ThrowsException<ArgumentException>(() => game.HandlePlayerJoin(message, sessionID));
+        }
+
+        [TestMethod()]
+        public void HandlePlayerJoin_PlayerID_Null()
+        {
+            //Arrange
+            Game game = new Game("ac04dcab-b025-45ff-b90a-d15b73759284");
+            PlayerJoinMessage message = new PlayerJoinMessage(null);
+            message.Username = "piet";
+            string sessionID = "1";
+
+            //Assert
+            Assert.ThrowsException<ArgumentException>(() => game.HandlePlayerJoin(message, sessionID));
+        }
+
+        [TestMethod()]
+        public void HandlePlayerJoin_Username_Empty()
+        {
+            //Arrange
+            Game game = new Game("ac04dcab-b025-45ff-b90a-d15b73759284");
+            PlayerJoinMessage message = new PlayerJoinMessage("1");
+            message.Username = "";
+            string sessionID = "1";
+
+            //Assert
+            Assert.ThrowsException<ArgumentException>(() => game.HandlePlayerJoin(message, sessionID));
+        }
+
+        [TestMethod()]
+        public void HandlePlayerJoin_Username_Null()
+        {
+            //Arrange
+            Game game = new Game("ac04dcab-b025-45ff-b90a-d15b73759284");
+            PlayerJoinMessage message = new PlayerJoinMessage("1");
+            message.Username = null;
+            string sessionID = "1";
+
+            //Assert
+            Assert.ThrowsException<ArgumentException>(() => game.HandlePlayerJoin(message, sessionID));
         }
     }
 }
