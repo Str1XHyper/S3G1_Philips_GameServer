@@ -164,5 +164,122 @@ namespace Logic.Tests
             //Assert
             Assert.ThrowsException<ArgumentException>(() => game.HandlePlayerJoin(message, sessionID));
         }
+
+
+        [TestMethod()]
+        public void HandleSocketMessage_DiceThrow_Successfull()
+        {
+            //Arrange
+
+            #region GameSetup
+            Game game = new Game("ac04dcab-b025-45ff-b90a-d15b73759284");
+            DiceThrow diceThrow = new DiceThrow()
+            {
+                playerId = "1",
+                rolledNumber = 1
+            };
+            PlayerJoinMessage message = new PlayerJoinMessage("1");
+            message.Username = "piet";
+            string sessionID = "15";
+            game.HandlePlayerJoin(message, sessionID);
+            #endregion
+
+
+            ResponseObject expected = new ResponseObject();
+            expected.ResponseString = JsonSerializer.Serialize(new MovePlayerResponse(diceThrow.playerId, diceThrow.rolledNumber));
+            expected.sessions = new List<string>() { sessionID };
+
+            //Act
+            var response = game.HandleSocketMessage(JsonSerializer.Serialize(diceThrow));
+
+            //Assert
+            Assert.AreEqual(expected.ResponseString, response.ResponseString);
+            CollectionAssert.AreEqual(expected.sessions, response.sessions);
+        }
+
+        [TestMethod()]
+        public void HandleSocketMessage_DiceThrow_PlayerIDEmpty()
+        {
+            //Arrange
+
+            #region GameSetup
+            Game game = new Game("ac04dcab-b025-45ff-b90a-d15b73759284");
+            DiceThrow diceThrow = new DiceThrow()
+            {
+                playerId = "",
+                rolledNumber = 1
+            };
+            PlayerJoinMessage message = new PlayerJoinMessage("1");
+            message.Username = "piet";
+            string sessionID = "15";
+            game.HandlePlayerJoin(message, sessionID);
+            #endregion
+
+            //Assert
+            Assert.ThrowsException<ArgumentException>(() => game.HandleSocketMessage(JsonSerializer.Serialize(diceThrow)));
+        }
+
+        [TestMethod()]
+        public void HandleSocketMessage_DiceThrow_PlayerIDNull()
+        {
+            //Arrange
+
+            #region GameSetup
+            Game game = new Game("ac04dcab-b025-45ff-b90a-d15b73759284");
+            DiceThrow diceThrow = new DiceThrow()
+            {
+                playerId = null,
+                rolledNumber = 1
+            };
+            PlayerJoinMessage message = new PlayerJoinMessage("1");
+            message.Username = "piet";
+            string sessionID = "15";
+            game.HandlePlayerJoin(message, sessionID);
+            #endregion
+
+            //Assert
+            Assert.ThrowsException<ArgumentException>(() => game.HandleSocketMessage(JsonSerializer.Serialize(diceThrow)));
+        }
+
+        [TestMethod()]
+        public void HandleSocketMessage_EncounterSpace_Successfull()
+        {
+
+        }
+        [TestMethod()]
+        public void HandleSocketMessage_TurnEnd_Successfull()
+        {
+
+        }
+        [TestMethod()]
+        public void HandleSocketMessage_DirectionChosen_Successfull()
+        {
+
+        }
+        [TestMethod()]
+        public void HandleSocketMessage_PassedBank_Successfull()
+        {
+
+        }
+        [TestMethod()]
+        public void HandleSocketMessage_PassedStart_Successfull()
+        {
+
+        }
+        [TestMethod()]
+        public void HandleSocketMessage_BoughtStar_Successfull()
+        {
+
+        }
+        [TestMethod()]
+        public void HandleSocketMessage_AnsweredQuestion_Successfull()
+        {
+
+        }
+        [TestMethod()]
+        public void HandleSocketMessage_StartGame_Successfull()
+        {
+
+        }
     }
 }

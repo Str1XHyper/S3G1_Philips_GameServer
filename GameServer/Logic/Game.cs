@@ -196,6 +196,10 @@ namespace Logic
 
         private string HandleSpaceEncounter(EncounteredSpace encounteredSpace)
         {
+            if (string.IsNullOrEmpty(encounteredSpace.playerId))
+            {
+                throw new ArgumentException("EncounteredSpace variables are not valid");
+            }
             Player player = GetPlayerFromID(encounteredSpace.playerId);
             switch (encounteredSpace.spaceType)
             {
@@ -218,6 +222,10 @@ namespace Logic
 
         private string HandleDiceThrow(DiceThrow diceThrow)
         {
+            if(string.IsNullOrEmpty(diceThrow.playerId) || diceThrow.rolledNumber < 1 || diceThrow.rolledNumber > 6)
+            {
+                throw new ArgumentException("Dicethrow variables are not valid");
+            }
             return JsonSerializer.Serialize(new MovePlayerResponse(diceThrow.playerId, diceThrow.rolledNumber));
         }
 
