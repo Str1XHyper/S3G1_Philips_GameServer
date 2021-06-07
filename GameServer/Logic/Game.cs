@@ -86,6 +86,9 @@ namespace Logic
                 case MessageType.START_GAME:
                     response = StartGame();
                     break;
+                case MessageType.GET_SCORE:
+                    response = JsonSerializer.Serialize(CreateScoreResponse());
+                    break;
             }
             Console.WriteLine("Sent: " + response);
             ResponseObject responseObject = new ResponseObject()

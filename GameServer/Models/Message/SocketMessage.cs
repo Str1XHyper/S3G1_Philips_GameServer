@@ -15,7 +15,8 @@ namespace Models.Message
         BOUGHT_STAR,
         ANSWERED_QUESTION,
         PLAYER_JOIN,
-        START_GAME
+        START_GAME,
+        GET_SCORE
     }
     public class SocketMessage
     {
