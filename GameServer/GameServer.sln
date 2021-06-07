@@ -5,9 +5,11 @@ VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameServer", "GameServer\GameServer.csproj", "{F3313488-83CD-4C80-A185-E8B15851C3CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "Logic\Logic.csproj", "{930A6005-4A15-4C41-BCFF-93797F2B3505}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "Logic\Logic.csproj", "{930A6005-4A15-4C41-BCFF-93797F2B3505}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{C68E160A-4CAF-4EB5-A589-C0AA62C2F34D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{C68E160A-4CAF-4EB5-A589-C0AA62C2F34D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicTests", "LogicTests\LogicTests.csproj", "{F84B0A64-C4F7-44EE-825E-D7235668ECEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{C68E160A-4CAF-4EB5-A589-C0AA62C2F34D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C68E160A-4CAF-4EB5-A589-C0AA62C2F34D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C68E160A-4CAF-4EB5-A589-C0AA62C2F34D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F84B0A64-C4F7-44EE-825E-D7235668ECEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F84B0A64-C4F7-44EE-825E-D7235668ECEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F84B0A64-C4F7-44EE-825E-D7235668ECEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F84B0A64-C4F7-44EE-825E-D7235668ECEE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -21,10 +21,28 @@ namespace Logic
 
         public Game(string LessonId)
         {
+            if(string.IsNullOrEmpty(LessonId))
+            {
+                throw new ArgumentException("LessonID cannot be null or empty");
+            }
             questions = GetQuestions(LessonId);
         }
         public ResponseObject HandlePlayerJoin(PlayerJoinMessage message, string SessionID)
         {
+            if (string.IsNullOrEmpty(SessionID))
+            {
+                throw new ArgumentException("SessionID cannot be null or empty");
+            } else if (message == null)
+            {
+                throw new ArgumentException("PlayerJoinMessage object cannot be null");
+            } else if (string.IsNullOrEmpty(message.playerId))
+            {
+                throw new ArgumentException("PlayerID in PlayerJoinMessage cannot be null or empty");
+            } else if (string.IsNullOrEmpty(message.Username))
+            {
+                throw new ArgumentException("Username in PlayerJoinMessage cannot be null or empty");
+            }
+
             bool playerExists = false;
             foreach(Player player in players)
             {
@@ -56,6 +74,11 @@ namespace Logic
 
         public ResponseObject HandleSocketMessage(string jsonString)
         {
+            if (string.IsNullOrEmpty(jsonString))
+            {
+                throw new ArgumentException("JsonString cannot be null");
+            }
+
             SocketMessage message = JsonSerializer.Deserialize<SocketMessage>(jsonString);
             string response = string.Empty;
             switch (message.messageType)
@@ -177,6 +200,10 @@ namespace Logic
 
         private string HandleSpaceEncounter(EncounteredSpace encounteredSpace)
         {
+            if (string.IsNullOrEmpty(encounteredSpace.playerId))
+            {
+                throw new ArgumentException("EncounteredSpace variables are not valid");
+            }
             Player player = GetPlayerFromID(encounteredSpace.playerId);
             switch (encounteredSpace.spaceType)
             {
@@ -199,6 +226,10 @@ namespace Logic
 
         private string HandleDiceThrow(DiceThrow diceThrow)
         {
+            if(string.IsNullOrEmpty(diceThrow.playerId) || diceThrow.rolledNumber < 1 || diceThrow.rolledNumber > 6)
+            {
+                throw new ArgumentException("Dicethrow variables are not valid");
+            }
             return JsonSerializer.Serialize(new MovePlayerResponse(diceThrow.playerId, diceThrow.rolledNumber));
         }
 
@@ -246,9 +277,21 @@ namespace Logic
         private static List<Question> GetQuestions(string LessonID)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://api.str1xhyper.nl/Question/"+LessonID);
-            using var webResponse = request.GetResponse();
+            WebResponse webResponse = null;
+            while (webResponse == null)
+            {
+                try
+                {
+                    webResponse = request.GetResponse();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Receiving questions failed with exception:" + ex.Message);
+                    Console.WriteLine("Retrying...");
+                    webResponse = null;
+                }
+            }
             using var webStream = webResponse.GetResponseStream();
-
             using var reader = new StreamReader(webStream);
             var data = reader.ReadToEnd();
             return JsonSerializer.Deserialize<List<Question>>(data);
@@ -258,9 +301,22 @@ namespace Logic
         {
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://api.str1xhyper.nl/Answer/" + questionID);
-            using var webResponse = request.GetResponse();
-            using var webStream = webResponse.GetResponseStream();
 
+            WebResponse webResponse = null;
+            while(webResponse == null)
+            {
+                try
+                {
+                    webResponse = request.GetResponse();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Receiving answers failed with exception:" + ex.Message);
+                    Console.WriteLine("Retrying...");
+                    webResponse = null;
+                }
+            }
+            using var webStream = webResponse.GetResponseStream();
             using var reader = new StreamReader(webStream);
             var data = reader.ReadToEnd();
             return JsonSerializer.Deserialize<List<Answer>>(data);

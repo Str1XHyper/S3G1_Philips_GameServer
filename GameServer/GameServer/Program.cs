@@ -29,33 +29,47 @@ namespace GameServer
 
         protected override void OnMessage(MessageEventArgs e)
         {
-            ResponseObject response;
-            Console.WriteLine("Received: " + e.Data);
 
-            SocketMessage message = JsonSerializer.Deserialize<SocketMessage>(e.Data);
-            if(message.messageType == MessageType.PLAYER_JOIN)
+            try
             {
-                PlayerJoinMessage playerJoinMessage = JsonSerializer.Deserialize<PlayerJoinMessage>(e.Data);
-                
+                ResponseObject response;
+                Console.WriteLine("Received: " + e.Data);
 
-                if(!Program.GameDict.ContainsKey(playerJoinMessage.LessonId))
+                SocketMessage message = JsonSerializer.Deserialize<SocketMessage>(e.Data);
+                if (message.messageType == MessageType.PLAYER_JOIN)
                 {
-                    game = new Game(playerJoinMessage.LessonId);
-                    Program.GameDict.Add(playerJoinMessage.LessonId,game);
-                } 
+                    PlayerJoinMessage playerJoinMessage = JsonSerializer.Deserialize<PlayerJoinMessage>(e.Data);
+
+
+                    if (!Program.GameDict.ContainsKey(playerJoinMessage.LessonId))
+                    {
+                        game = new Game(playerJoinMessage.LessonId);
+                        Program.GameDict.Add(playerJoinMessage.LessonId, game);
+
+                    }
+                    else
+                    {
+                        game = Program.GameDict[playerJoinMessage.LessonId];
+                    }
+
+                    response = game.HandlePlayerJoin(playerJoinMessage, ID);
+                }
                 else
                 {
-                    game = Program.GameDict[playerJoinMessage.LessonId];
+                    response = game.HandleSocketMessage(e.Data);
                 }
-                response = game.HandlePlayerJoin(playerJoinMessage, ID);
+                foreach (string id in response.sessions)
+                {
+                    Sessions.SendTo(response.ResponseString, id);
+                }
             }
-            else
+            catch (ArgumentException ex)
             {
-                response = game.HandleSocketMessage(e.Data);
+                Send(ex.Message);
             }
-            foreach(string id in response.sessions)
+            catch (Exception ex)
             {
-                Sessions.SendTo(response.ResponseString, id);
+                Send(ex.Message);
             }
         }
 
@@ -75,7 +89,7 @@ namespace GameServer
             var wssv = new WebSocketServer("ws://localhost:4000");
             wssv.AddWebSocketService<Mercier>("/Mercier");
             wssv.Start();
-            
+
             Console.ReadKey(true);
             wssv.Stop();
         }
