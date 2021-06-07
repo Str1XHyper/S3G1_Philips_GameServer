@@ -272,9 +272,21 @@ namespace Logic
         private static List<Question> GetQuestions(string LessonID)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://api.str1xhyper.nl/Question/"+LessonID);
-            using var webResponse = request.GetResponse();
+            WebResponse webResponse = null;
+            while (webResponse == null)
+            {
+                try
+                {
+                    webResponse = request.GetResponse();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Receiving questions failed with exception:" + ex.Message);
+                    Console.WriteLine("Retrying...");
+                    webResponse = null;
+                }
+            }
             using var webStream = webResponse.GetResponseStream();
-
             using var reader = new StreamReader(webStream);
             var data = reader.ReadToEnd();
             return JsonSerializer.Deserialize<List<Question>>(data);
@@ -284,9 +296,22 @@ namespace Logic
         {
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://api.str1xhyper.nl/Answer/" + questionID);
-            using var webResponse = request.GetResponse();
-            using var webStream = webResponse.GetResponseStream();
 
+            WebResponse webResponse = null;
+            while(webResponse == null)
+            {
+                try
+                {
+                    webResponse = request.GetResponse();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Receiving answers failed with exception:" + ex.Message);
+                    Console.WriteLine("Retrying...");
+                    webResponse = null;
+                }
+            }
+            using var webStream = webResponse.GetResponseStream();
             using var reader = new StreamReader(webStream);
             var data = reader.ReadToEnd();
             return JsonSerializer.Deserialize<List<Answer>>(data);

@@ -242,9 +242,201 @@ namespace Logic.Tests
         }
 
         [TestMethod()]
-        public void HandleSocketMessage_EncounterSpace_Successfull()
+        public void HandleSocketMessage_EncounterSpaceBank_Successfull()
         {
+            //Arrange
 
+            #region GameSetup
+            Game game = new Game("ac04dcab-b025-45ff-b90a-d15b73759284");
+            EncounteredSpace encounteredSpace = new EncounteredSpace()
+            {
+                playerId = "1",
+                spaceType = SpaceType.BANK
+            };
+            PlayerJoinMessage message = new PlayerJoinMessage("1");
+            message.Username = "piet";
+            string sessionID = "15";
+            game.HandlePlayerJoin(message, sessionID);
+            #endregion
+
+
+            ResponseObject expected = new ResponseObject();
+            expected.ResponseString = JsonSerializer.Serialize(new ScoreResponse("1", 0, 0));
+            expected.sessions = new List<string>() { sessionID };
+
+            //Act
+            var response = game.HandleSocketMessage(JsonSerializer.Serialize(encounteredSpace));
+
+            //Assert
+            Assert.AreEqual(expected.ResponseString, response.ResponseString);
+            CollectionAssert.AreEqual(expected.sessions, response.sessions);
+        }
+
+        [TestMethod()]
+        public void HandleSocketMessage_EncounterSpaceChooseDirection_Successfull()
+        {
+            //Arrange
+
+            #region GameSetup
+            Game game = new Game("ac04dcab-b025-45ff-b90a-d15b73759284");
+            EncounteredSpace encounteredSpace = new EncounteredSpace()
+            {
+                playerId = "1",
+                spaceType = SpaceType.CHOOSE_DIRECTION
+            };
+            PlayerJoinMessage message = new PlayerJoinMessage("1");
+            message.Username = "piet";
+            string sessionID = "15";
+            game.HandlePlayerJoin(message, sessionID);
+            #endregion
+
+
+            ResponseObject expected = new ResponseObject();
+            expected.ResponseString = JsonSerializer.Serialize(new ScoreResponse("1", 0, 0));
+            expected.sessions = new List<string>() { sessionID };
+
+            //Act
+            var response = game.HandleSocketMessage(JsonSerializer.Serialize(encounteredSpace));
+
+            //Assert
+            Assert.AreEqual(expected.ResponseString, response.ResponseString);
+            CollectionAssert.AreEqual(expected.sessions, response.sessions);
+        }
+        [TestMethod()]
+        public void HandleSocketMessage_EncounterSpaceGainPoints_Successfull()
+        {
+            //Arrange
+
+            #region GameSetup
+            Game game = new Game("ac04dcab-b025-45ff-b90a-d15b73759284");
+            EncounteredSpace encounteredSpace = new EncounteredSpace()
+            {
+                playerId = "1",
+                spaceType = SpaceType.GAIN_POINTS
+            };
+            PlayerJoinMessage message = new PlayerJoinMessage("1");
+            message.Username = "piet";
+            string sessionID = "15";
+            game.HandlePlayerJoin(message, sessionID);
+            #endregion
+
+
+            ResponseObject expected = new ResponseObject();
+            expected.ResponseString = JsonSerializer.Serialize(new ScoreResponse("1", 1, 0));
+            expected.sessions = new List<string>() { sessionID };
+
+            //Act
+            var response = game.HandleSocketMessage(JsonSerializer.Serialize(encounteredSpace));
+
+            //Assert
+            Assert.AreEqual(expected.ResponseString, response.ResponseString);
+            CollectionAssert.AreEqual(expected.sessions, response.sessions);
+        }
+
+        [TestMethod()]
+        public void HandleSocketMessage_EncounterSpaceLosePoints_Successfull()
+        {
+            //Arrange
+
+            #region GameSetup
+            Game game = new Game("ac04dcab-b025-45ff-b90a-d15b73759284");
+            EncounteredSpace encounteredSpace = new EncounteredSpace()
+            {
+                playerId = "1",
+                spaceType = SpaceType.BANK
+            };
+            PlayerJoinMessage message = new PlayerJoinMessage("1");
+            message.Username = "piet";
+            string sessionID = "15";
+            game.HandlePlayerJoin(message, sessionID);
+            #endregion
+
+
+            ResponseObject expected = new ResponseObject();
+            expected.ResponseString = JsonSerializer.Serialize(new ScoreResponse("1", 0, 0));
+            expected.sessions = new List<string>() { sessionID };
+
+            //Act
+            var response = game.HandleSocketMessage(JsonSerializer.Serialize(encounteredSpace));
+
+            //Assert
+            Assert.AreEqual(expected.ResponseString, response.ResponseString);
+            CollectionAssert.AreEqual(expected.sessions, response.sessions);
+        }
+
+        [TestMethod()]
+        public void HandleSocketMessage_EncounterSpaceStart_Successfull()
+        {
+            //Arrange
+
+            #region GameSetup
+            Game game = new Game("ac04dcab-b025-45ff-b90a-d15b73759284");
+            EncounteredSpace encounteredSpace = new EncounteredSpace()
+            {
+                playerId = "1",
+                spaceType = SpaceType.START
+            };
+            PlayerJoinMessage message = new PlayerJoinMessage("1");
+            message.Username = "piet";
+            string sessionID = "15";
+            game.HandlePlayerJoin(message, sessionID);
+            #endregion
+
+
+            ResponseObject expected = new ResponseObject();
+            expected.ResponseString = JsonSerializer.Serialize(new ScoreResponse("1", 2, 0));
+            expected.sessions = new List<string>() { sessionID };
+
+            //Act
+            var response = game.HandleSocketMessage(JsonSerializer.Serialize(encounteredSpace));
+
+            //Assert
+            Assert.AreEqual(expected.ResponseString, response.ResponseString);
+            CollectionAssert.AreEqual(expected.sessions, response.sessions);
+        }
+
+        [TestMethod()]
+        public void HandleSocketMessage_EncounterSpace_PlayerIDEmpty()
+        {
+            //Arrange
+
+            #region GameSetup
+            Game game = new Game("ac04dcab-b025-45ff-b90a-d15b73759284");
+            EncounteredSpace encounteredSpace = new EncounteredSpace()
+            {
+                playerId = "",
+                spaceType = SpaceType.BANK
+            };
+            PlayerJoinMessage message = new PlayerJoinMessage("1");
+            message.Username = "piet";
+            string sessionID = "15";
+            game.HandlePlayerJoin(message, sessionID);
+            #endregion
+
+            //Assert
+            Assert.ThrowsException<ArgumentException>(() => game.HandleSocketMessage(JsonSerializer.Serialize(encounteredSpace)));
+        }
+
+        [TestMethod()]
+        public void HandleSocketMessage_EncounterSpace_PlayerIDNull ()
+        {
+            //Arrange
+
+            #region GameSetup
+            Game game = new Game("ac04dcab-b025-45ff-b90a-d15b73759284");
+            EncounteredSpace encounteredSpace = new EncounteredSpace()
+            {
+                playerId = null,
+                spaceType = SpaceType.BANK
+            };
+            PlayerJoinMessage message = new PlayerJoinMessage("1");
+            message.Username = "piet";
+            string sessionID = "15";
+            game.HandlePlayerJoin(message, sessionID);
+            #endregion
+
+            //Assert
+            Assert.ThrowsException<ArgumentException>(() => game.HandleSocketMessage(JsonSerializer.Serialize(encounteredSpace)));
         }
         [TestMethod()]
         public void HandleSocketMessage_TurnEnd_Successfull()
