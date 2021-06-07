@@ -215,8 +215,7 @@ namespace Logic
             {
                 scoreResponses.Add(new ScoreResponse(player));
             }
-            Scores scores = new Scores();
-            scores.scoreResponses = scoreResponses.ToArray();
+            Scores scores = new Scores(scoreResponses.ToArray(), "");
             return scores;
         }
 
