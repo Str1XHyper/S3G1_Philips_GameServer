@@ -1,5 +1,4 @@
 ﻿using Models.Message;
-using Models.Response;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -208,16 +207,14 @@ namespace Logic
             player.AddPoints(receivedMoney);
         }
 
-        private Scores CreateScoreResponse()
+        private List<ScoreResponse> CreateScoreResponse()
         {
             List<ScoreResponse> scoreResponses = new List<ScoreResponse>();
             foreach(Player player in players)
             {
                 scoreResponses.Add(new ScoreResponse(player));
             }
-            Scores scores = new Scores();
-            scores.scoreResponses = scoreResponses.ToArray();
-            return scores;
+            return scoreResponses;
         }
 
         private bool CanBuyStar(Player player)
