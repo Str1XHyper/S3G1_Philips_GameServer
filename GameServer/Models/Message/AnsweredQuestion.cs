@@ -8,11 +8,11 @@ namespace Models.Message
 {
     public class AnsweredQuestion : SocketMessage
     {
-        public string answer;
+        public string answer { get; set; }
 
         public AnsweredQuestion()
         {
-
+            messageType = MessageType.ANSWERED_QUESTION;
         }
 
         public AnsweredQuestion(string playerId, string answer) : base(playerId)

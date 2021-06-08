@@ -26,6 +26,10 @@ namespace Logic
                 throw new ArgumentException("LessonID cannot be null or empty");
             }
             questions = GetQuestions(LessonId);
+            foreach(Question question in questions)
+            {
+                question.answers = GetAnswers(question.id);
+            }
         }
         public ResponseObject HandlePlayerJoin(PlayerJoinMessage message, string SessionID)
         {
@@ -90,7 +94,7 @@ namespace Logic
                     response = HandleSpaceEncounter(JsonSerializer.Deserialize<EncounteredSpace>(jsonString));
                     break;
                 case MessageType.TURN_END:
-                    response = HandleTurnEnd();
+                    response = HandleTurnEnd(JsonSerializer.Deserialize<TurnEnd>(jsonString));
                     break;
                 case MessageType.DIRECTION_CHOSEN:
                     response = HandleChooseDirection(JsonSerializer.Deserialize<DirectionChosen>(jsonString));
@@ -130,7 +134,12 @@ namespace Logic
 
         private string HandleAnswerQuestion(AnsweredQuestion answeredQuestion)
         {
+            if (string.IsNullOrEmpty(answeredQuestion.playerId))
+            {
+                throw new ArgumentException("PlayerID in answeredQuestion cannot be null or empty");
+            }
             Player player = GetPlayerFromID(answeredQuestion.playerId);
+
             if (questions[currentQuestionIndex].answers[0].answer == answeredQuestion.answer)
             {
                 player.AddPoints(1);
@@ -151,13 +160,22 @@ namespace Logic
             return "";
         }
 
-        private string HandleTurnEnd()
+        private string HandleTurnEnd(TurnEnd turnEnd)
         {
+            if (string.IsNullOrEmpty(turnEnd.playerId))
+            {
+                throw new ArgumentException("PlayerID in turnEnd cannot be null or empty");
+            }
+            else if (players[currentPlayerIndex].PlayerID != turnEnd.playerId)
+            {
+                throw new AccessViolationException("Only the player whos turn it is can end the turn");
+            }
+
+
             currentPlayerIndex += 1;
             if(currentPlayerIndex == players.Count)
             {
                 currentPlayerIndex = 0;
-                questions[currentQuestionIndex].answers = GetAnswers(questions[currentQuestionIndex].id);
                 return JsonSerializer.Serialize(new QuestionResponse("", questions[currentQuestionIndex]));
             } 
             else
@@ -168,6 +186,10 @@ namespace Logic
 
         private string HandleStarPurchase(BoughtStar boughtStar)
         {
+            if (string.IsNullOrEmpty(boughtStar.playerId))
+            {
+                throw new ArgumentException("PlayerID in boughtStar cannot be null or empty");
+            }
             Player player = GetPlayerFromID(boughtStar.playerId);
             if (CanBuyStar(player))
             {
@@ -179,6 +201,10 @@ namespace Logic
 
         private string HandlePassStart(PassedStart passedStart)
         {
+            if (string.IsNullOrEmpty(passedStart.playerId))
+            {
+                throw new ArgumentException("PlayerID in passedBank cannot be null or empty");
+            }
             Player player = GetPlayerFromID(passedStart.playerId);
             player.AddPoints(2);
             return JsonSerializer.Serialize(CreateScoreResponse());
@@ -186,6 +212,10 @@ namespace Logic
 
         private string HandlePassBank(PassedBank passedBank)
         {
+            if (string.IsNullOrEmpty(passedBank.playerId))
+            {
+                throw new ArgumentException("PlayerID in passedBank cannot be null or empty");
+            }
             Player player = GetPlayerFromID(passedBank.playerId);
             int scoreToAddToBank = player.Points > 1 ? 2 : player.Points;
             bank.AddMoneyToBank(scoreToAddToBank);
@@ -195,6 +225,10 @@ namespace Logic
 
         private string HandleChooseDirection(DirectionChosen directionChosen)
         {
+            if (string.IsNullOrEmpty(directionChosen.playerId))
+            {
+                throw new ArgumentException("PlayerID in directionChosen cannot be null or empty");
+            }
             return JsonSerializer.Serialize(new DirectionChosenResponse(directionChosen.playerId, directionChosen.direction));
         }
 

@@ -16,5 +16,10 @@ namespace Models.Message
             messageType = MessageType.TURN_END;
             currentTileIndex = currentTile;
         }
+
+        public TurnEnd()
+        {
+
+        }
     }
 }

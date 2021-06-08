@@ -12,7 +12,7 @@ namespace Models.Message
         }
         public StartGame()
         {
-
+            messageType = MessageType.START_GAME;
         }
     }
 }
