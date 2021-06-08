@@ -254,7 +254,7 @@ namespace Logic
                     player.AddPoints(2);
                     break;
             }
-            ScoreResponse scoreResponse = new ScoreResponse(player.PlayerID, player.Points, player.Stars);
+            ScoreResponse scoreResponse = new ScoreResponse(player);
             return JsonSerializer.Serialize(scoreResponse);
         }
 
