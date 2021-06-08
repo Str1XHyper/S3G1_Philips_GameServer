@@ -15,7 +15,7 @@ namespace Models.Message
 
         public PassedBank()
         {
-
+            messageType = MessageType.PASSED_BANK;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Models.Message
 
         public BoughtStar()
         {
-
+            messageType = MessageType.BOUGHT_STAR;
         }
     }
 }
