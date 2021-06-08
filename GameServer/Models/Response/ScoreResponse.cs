@@ -7,12 +7,14 @@ public class ScoreResponse
     public int Points { get; set; }
     public int Stars { get; set; }
     public string PlayerID { get; set; }
+    public string Username { get; set; }
 
-    public ScoreResponse(string playerId, int points, int stars)
+    public ScoreResponse(string playerId, int points, int stars, string username)
     {
         Points = points;
         Stars = stars;
         PlayerID = playerId;
+        Username = username;
     }
 
     public ScoreResponse(Player player)
@@ -20,5 +22,6 @@ public class ScoreResponse
         PlayerID = player.PlayerID;
         Points = player.Points;
         Stars = player.Stars;
+        Username = player.Username;
     }
 }

@@ -313,7 +313,7 @@ namespace Logic.Tests
             };
 
             ResponseObject expected = new ResponseObject();
-            expected.ResponseString = JsonSerializer.Serialize(new ScoreResponse("1", 0, 0));
+            expected.ResponseString = JsonSerializer.Serialize(new ScoreResponse("1", 0, 0, "piet"));
             expected.sessions = new List<string>() { sessionID };
 
             //Act
@@ -344,7 +344,7 @@ namespace Logic.Tests
             };
 
             ResponseObject expected = new ResponseObject();
-            expected.ResponseString = JsonSerializer.Serialize(new ScoreResponse("1", 0, 0));
+            expected.ResponseString = JsonSerializer.Serialize(new ScoreResponse("1", 0, 0, "piet"));
             expected.sessions = new List<string>() { sessionID };
 
             //Act
@@ -375,7 +375,7 @@ namespace Logic.Tests
 
 
             ResponseObject expected = new ResponseObject();
-            expected.ResponseString = JsonSerializer.Serialize(new ScoreResponse("1", 1, 0));
+            expected.ResponseString = JsonSerializer.Serialize(new ScoreResponse("1", 1, 0, "piet"));
             expected.sessions = new List<string>() { sessionID };
 
             //Act
@@ -407,7 +407,7 @@ namespace Logic.Tests
 
 
             ResponseObject expected = new ResponseObject();
-            expected.ResponseString = JsonSerializer.Serialize(new ScoreResponse("1", 0, 0));
+            expected.ResponseString = JsonSerializer.Serialize(new ScoreResponse("1", 0, 0, "piet"));
             expected.sessions = new List<string>() { sessionID };
 
             //Act
@@ -438,7 +438,7 @@ namespace Logic.Tests
             };
 
             ResponseObject expected = new ResponseObject();
-            expected.ResponseString = JsonSerializer.Serialize(new ScoreResponse("1", 2, 0));
+            expected.ResponseString = JsonSerializer.Serialize(new ScoreResponse("1", 2, 0, "piet"));
             expected.sessions = new List<string>() { sessionID };
 
             //Act
@@ -741,7 +741,7 @@ namespace Logic.Tests
 
             List<ScoreResponse> scoreResponses = new List<ScoreResponse>()
             {
-                new ScoreResponse("1", 0, 0)
+                new ScoreResponse("1", 0, 0, "piet")
             };
             Scores scores = new Scores(scoreResponses.ToArray(), "");
 
@@ -816,7 +816,7 @@ namespace Logic.Tests
 
             List<ScoreResponse> scoreResponses = new List<ScoreResponse>()
             {
-                new ScoreResponse("1",2, 0)
+                new ScoreResponse("1",2, 0, "piet")
             };
             Scores scores = new Scores(scoreResponses.ToArray(), "");
 
@@ -893,7 +893,7 @@ namespace Logic.Tests
 
             List<ScoreResponse> scoreResponses = new List<ScoreResponse>()
             {
-                new ScoreResponse("1",1, 1)
+                new ScoreResponse("1",1, 1, "piet")
             };
             Scores scores = new Scores(scoreResponses.ToArray(), "");
 
@@ -931,7 +931,7 @@ namespace Logic.Tests
 
             List<ScoreResponse> scoreResponses = new List<ScoreResponse>()
             {
-                new ScoreResponse("1",0, 0)
+                new ScoreResponse("1",0, 0, "piet")
             };
             Scores scores = new Scores(scoreResponses.ToArray(), "");
 
@@ -1010,7 +1010,7 @@ namespace Logic.Tests
 
             List<ScoreResponse> scoreResponses = new List<ScoreResponse>()
             {
-                new ScoreResponse("1", 1, 0)
+                new ScoreResponse("1", 1, 0, "piet")
             };
             Scores scores = new Scores(scoreResponses.ToArray(), "");
 
@@ -1053,7 +1053,7 @@ namespace Logic.Tests
 
             List<ScoreResponse> scoreResponses = new List<ScoreResponse>()
             {
-                new ScoreResponse("1", 0, 0)
+                new ScoreResponse("1", 0, 0, "piet")
             };
             Scores scores = new Scores(scoreResponses.ToArray(), "");
 
@@ -1161,7 +1161,7 @@ namespace Logic.Tests
 
             List<ScoreResponse> scoreResponses = new List<ScoreResponse>()
             {
-                new ScoreResponse("1", 0, 0)
+                new ScoreResponse("1", 0, 0, "piet")
             };
             Scores scores = new Scores(scoreResponses.ToArray(), "");
 
